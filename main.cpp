@@ -9,12 +9,12 @@
 #define FILE_PATH "clickfolders.txt"
 
 // Function to read the text file and get the folder paths
-bool getFolderPaths(std::string folderPaths[3]) {
+bool getFolderPaths(std::string folderPaths[9]) { // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     std::ifstream file(FILE_PATH);
     if (!file.is_open()) {
         return false;
     }
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 9; i++) { //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
         if (!std::getline(file, folderPaths[i])) {
             return false;
         }
@@ -36,7 +36,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
             nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
             nid.uCallbackMessage = WM_USER + 1;
             nid.hIcon = (HICON)LoadImage(GetModuleHandle(NULL), "icon.ico", IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
-            lstrcpy(nid.szTip, "ClickFolders - alt click to close");
+            lstrcpy(nid.szTip, "FolderTrayOpener - Esc + click to close");
             Shell_NotifyIcon(NIM_ADD, &nid);
         }
         // Hide the window
@@ -49,7 +49,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         case WM_RBUTTONDOWN:
         case WM_MBUTTONDOWN:
             {
-                std::string folderPaths[3];
+                std::string folderPaths[9]; //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
                 if (!getFolderPaths(folderPaths)) {
                     // Error reading the text file
                     MessageBox(NULL, "Error reading the text file.", "Error", MB_ICONERROR | MB_OK);
@@ -67,16 +67,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
                     index = 2;
                     break;
                 }
-                if (GetAsyncKeyState(VK_MENU) & 0x8000) {
-                    // Alt key is being held down, close the app
-                    NOTIFYICONDATA nid;
-                    ZeroMemory(&nid, sizeof(nid));
-                    nid.cbSize = sizeof(nid);
-                    nid.hWnd = hWnd;
-                    nid.uID = ID_TRAY_ICON;
-                    Shell_NotifyIcon(NIM_DELETE, &nid);
+                if (GetAsyncKeyState(VK_ESCAPE) & 0x8000) {
+                    // ESC key is being held down, close the app
                     PostQuitMessage(0);
                 }
+				if (GetAsyncKeyState(VK_MENU) & 0x8000) {
+					index += 3;
+				}
+				if (GetAsyncKeyState(VK_CONTROL) & 0x8000) {
+					index += 6;
+				}
                 else {
                     // Open the folder
                     ShellExecute(NULL, "open", folderPaths[index].c_str(), NULL, NULL, SW_SHOWDEFAULT);
