@@ -77,6 +77,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 				if (GetAsyncKeyState(VK_CONTROL) & 0x8000) {
 					index += 6;
 				}
+				if (GetAsyncKeyState(VK_HELP) & 0x8000) {
+					index += 9;
+				}
                 else {
                     // Open the folder
                     ShellExecute(NULL, "open", folderPaths[index].c_str(), NULL, NULL, SW_SHOWDEFAULT);
