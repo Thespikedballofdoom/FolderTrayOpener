@@ -6,15 +6,15 @@
 #define ID_TRAY_ICON 1
 
 // Define the path to the text file
-#define FILE_PATH "C:\\Program Files\\NICE COCK\\clickfolders.txt"
+#define FILE_PATH "clickfolders.txt"
 
 // Function to read the text file and get the folder paths
-bool getFolderPaths(std::string folderPaths[16]) { // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+bool getFolderPaths(std::string folderPaths[12]) { // ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     std::ifstream file(FILE_PATH);
     if (!file.is_open()) {
         return false;
     }
-    for (int i = 0; i < 16; i++) { //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    for (int i = 0; i < 12; i++) { //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
         if (!std::getline(file, folderPaths[i])) {
             return false;
         }
@@ -49,7 +49,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         case WM_RBUTTONDOWN:
         case WM_MBUTTONDOWN:
             {
-                std::string folderPaths[16]; //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+                std::string folderPaths[12]; //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
                 if (!getFolderPaths(folderPaths)) {
                     // Error reading the text file
                     MessageBox(NULL, "Error reading the text file.", "Error", MB_ICONERROR | MB_OK);
