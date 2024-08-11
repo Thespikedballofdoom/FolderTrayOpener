@@ -1,2 +1,2 @@
-g++ -I "C:\Program Files (x86)\Windows Kits\10\Include" main.cpp -o FolderTrayOpener
+g++ %1 -o "%~n1"
 pause
